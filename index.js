@@ -16,14 +16,14 @@ const wss = new sock.Server({ port: 8080 })
 let waitingPlayer
 let freeRoom = false
 wss.on('connection', ws => {
-    console.log("connect")
+    console.log('connection')
     ws.on('message', data => {
         const arr = data.toString().split('|')
         switch (arr[0]){
             case "find":
                 if(!freeRoom) waitingPlayer = ws
                 else{
-                    const currentRoom = new Room(waitingPlayer, ws, Math.random() > 0.5)
+                    const currentRoom = new Room(waitingPlayer, ws)
                     waitingPlayer.emit('start-game', currentRoom)
                     ws.emit('start-game', currentRoom)
                     waitingPlayer = null
