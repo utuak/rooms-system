@@ -17,6 +17,12 @@ let waitingPlayer
 let freeRoom = false
 wss.on('connection', ws => {
     console.log('connection')
+    let socketRoom
+    ws.on('start-game', room => {
+        socketRoom = room
+        ws.send("start")
+        console.log("start")
+    })
     ws.on('message', data => {
         const arr = data.toString().split('|')
         switch (arr[0]){
